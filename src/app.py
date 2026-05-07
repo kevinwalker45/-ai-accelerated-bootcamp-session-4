@@ -19,6 +19,10 @@ current_dir = Path(__file__).parent
 app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
+# Mount the images directory so Byte mascots are accessible at /images/
+images_dir = os.path.join(Path(__file__).parent.parent, ".images")
+app.mount("/images", StaticFiles(directory=images_dir), name="images")
+
 # In-memory capabilities database
 capabilities = {
     "Cloud Architecture": {
@@ -32,7 +36,7 @@ capabilities = {
     },
     "Data Analytics": {
         "description": "Advanced data analysis, visualization, and machine learning solutions",
-        "practice_area": "Technology", 
+        "practice_area": "Technology",
         "skill_levels": ["Emerging", "Proficient", "Advanced", "Expert"],
         "certifications": ["Tableau Desktop Specialist", "Power BI Expert", "Google Analytics"],
         "industry_verticals": ["Retail", "Healthcare", "Manufacturing"],
@@ -42,7 +46,7 @@ capabilities = {
     "DevOps Engineering": {
         "description": "CI/CD pipeline design, infrastructure automation, and containerization",
         "practice_area": "Technology",
-        "skill_levels": ["Emerging", "Proficient", "Advanced", "Expert"], 
+        "skill_levels": ["Emerging", "Proficient", "Advanced", "Expert"],
         "certifications": ["Docker Certified Associate", "Kubernetes Admin", "Jenkins Certified"],
         "industry_verticals": ["Technology", "Financial Services"],
         "capacity": 30,
@@ -132,21 +136,17 @@ def get_capabilities():
 @app.post("/capabilities/{capability_name}/register")
 def register_for_capability(capability_name: str, email: str):
     """Register a consultant for a capability"""
-    # Validate capability exists
     if capability_name not in capabilities:
         raise HTTPException(status_code=404, detail="Capability not found")
 
-    # Get the specific capability
     capability = capabilities[capability_name]
 
-    # Validate consultant is not already registered
     if email in capability["consultants"]:
         raise HTTPException(
             status_code=400,
             detail="Consultant is already registered for this capability"
         )
 
-    # Add consultant
     capability["consultants"].append(email)
     return {"message": f"Registered {email} for {capability_name}"}
 
@@ -154,20 +154,16 @@ def register_for_capability(capability_name: str, email: str):
 @app.delete("/capabilities/{capability_name}/unregister")
 def unregister_from_capability(capability_name: str, email: str):
     """Unregister a consultant from a capability"""
-    # Validate capability exists
     if capability_name not in capabilities:
         raise HTTPException(status_code=404, detail="Capability not found")
 
-    # Get the specific capability
     capability = capabilities[capability_name]
 
-    # Validate consultant is registered
     if email not in capability["consultants"]:
         raise HTTPException(
             status_code=400,
             detail="Consultant is not registered for this capability"
         )
 
-    # Remove consultant
     capability["consultants"].remove(email)
     return {"message": f"Unregistered {email} from {capability_name}"}
