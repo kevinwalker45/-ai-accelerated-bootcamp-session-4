@@ -101,6 +101,20 @@ capabilities = {
         "industry_verticals": ["Technology", "Financial Services", "Healthcare"],
         "capacity": 20,
         "consultants": ["charlotte.young@slalom.com", "henry.king@slalom.com"]
+    },
+    "Slalom Build": {
+        "description": "Product strategy, design thinking, and full-stack digital product development combining engineering, UX, and product management",
+        "practice_area": "Technology",
+        "skill_levels": ["Emerging", "Proficient", "Advanced", "Expert"],
+        "certifications": [
+            "Certified Product Manager",
+            "Agile Certified Practitioner",
+            "Google UX Design Certificate",
+            "AWS Developer Associate"
+        ],
+        "industry_verticals": ["Consumer Products", "Fintech", "Healthtech", "Retail", "Technology"],
+        "capacity": 40,
+        "consultants": []
     }
 }
 
